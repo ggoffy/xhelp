@@ -175,7 +175,7 @@ if ($xoopsUser) {
                 }
                 unset($fields);
 
-                $criteria       = unserialize($mySearch->getVar('search'));
+                $criteria       = unserialize($mySearch->getVar('search'), ['allowed_classes' => false]);
                 $pagenav_vars   = $mySearch->getVar('pagenav_vars');
                 $searchLimit    = $criteria->getLimit();
                 $searchStart    = $criteria->getStart();
@@ -365,7 +365,7 @@ if ($xoopsUser) {
                         }
                     } else {   // If not deleting saved search
                         $mySavedSearch = $savedSearchHandler->get($_REQUEST['savedSearch']);
-                        $criteria      = unserialize($mySavedSearch->getVar('search'));                   // Set $criteria object
+                        $criteria      = unserialize($mySavedSearch->getVar('search'), ['allowed_classes' => false]);                   // Set $criteria object
                         $pagenav_vars  = $mySavedSearch->getVar('pagenav_vars');                          // set pagenav vars
 
                         if (0 != $criteria->getLimit()) {

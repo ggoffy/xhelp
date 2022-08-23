@@ -963,8 +963,8 @@ function staffmain_display()
     }
     $uid         = $xoopsUser->getVar('uid');
     $depts       = $departmentHandler->getObjects(null, true);
-    $priority    = $ticketHandler->getStaffTickets($uid, XHELP_QRY_STAFF_HIGHPRIORITY, $start, $limit);
-    $ticketLists = $ticketListHandler->getListsByUser($uid);
+    $priority    = $ticketHandler->getStaffTickets((int)$uid, XHELP_QRY_STAFF_HIGHPRIORITY, (int)$start, (int)$limit);
+    $ticketLists = $ticketListHandler->getListsByUser((int)$uid);
     $all_users   = [];
 
     $tickets = [];

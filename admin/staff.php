@@ -92,10 +92,10 @@ function addRole()
 
         if ($roleHandler->insert($role)) {
             $message = _AM_XHELP_MESSAGE_ROLE_INSERT;
-            $helper->redirect("staff.php?op=$lastPage");
+            $helper->redirect("admin/staff.php?op=$lastPage");
         } else {
             $message = _AM_XHELP_MESSAGE_ROLE_INSERT_ERROR;
-            $helper->redirect("staff.php?op=$lastPage", 3, $message);
+            $helper->redirect("admin/staff.php?op=$lastPage", 3, $message);
         }
     } else {
         // Set array of security items
@@ -571,13 +571,13 @@ function editStaff()
         $membershipHandler = $helper->getHandler('Membership');
 
         //Remove existing dept membership
-        if (!$membershipHandler->clearStaffMembership($uid)) {
+        if (!$membershipHandler->clearStaffMembership((int)$uid)) {
             $message = _XHELP_MESSAGE_EDITSTAFF_NOCLEAR_ERROR;
             $helper->redirect('admin/staff.php?op=manageStaff', 3, $message);
         }
 
         //Add staff member to selected depts
-        if ($membershipHandler->addDeptToStaff($depts, $uid)) {
+        if ($membershipHandler->addDeptToStaff($depts, (int)$uid)) {
             $message = _XHELP_MESSAGE_EDITSTAFF;
         } else {
             $message = _XHELP_MESSAGE_EDITSTAFF_ERROR;
@@ -588,7 +588,7 @@ function editStaff()
 
         //Add Global Role Permissions
         foreach ($roles as $role) {
-            $staffHandler->addStaffRole($uid, $role, 0);
+            $staffHandler->addStaffRole((int)$uid, (int)$role, 0);
         }
 
         //Add Department Specific Roles
@@ -600,7 +600,7 @@ function editStaff()
             }
 
             foreach ($dept_roles as $role) {
-                $staffHandler->addStaffRole($uid, (int)$role, $dept);
+                $staffHandler->addStaffRole((int)$uid, (int)$role, (int)$dept);
             }
         }
 
@@ -637,7 +637,7 @@ function editStaff()
         $staff        = $staffHandler->getByUid($uid);
         /** @var \XoopsModules\Xhelp\MembershipHandler $membershipHandler */
         $membershipHandler = $helper->getHandler('Membership');
-        $staffDepts        = $membershipHandler->membershipByStaff($uid);
+        $staffDepts        = $membershipHandler->membershipByStaff((int)$uid);
         $staffRoles        = $staff->getAllRoleRights();
         $global_roles      = (isset($staffRoles[0]['roles']) ? array_keys($staffRoles[0]['roles']) : []);  //Get all Global Roles
 
@@ -671,7 +671,7 @@ function editStaff()
             if (in_array($roleid, $global_roles)) {
                 echo "<tr><td><input type='checkbox' name='roles[]' checked value='"
                      . $role->getVar('id')
-                     . "' onclick=\"Xhelp\RoleCustOnClick('frmEditStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\"><a href='staff.php?op=editRole&amp;id="
+                     . "' onclick=\"xhelpRoleCustOnClick('frmEditStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\"><a href='staff.php?op=editRole&amp;id="
                      . $role->getVar('id')
                      . '&amp;uid='
                      . $uid
@@ -686,7 +686,7 @@ function editStaff()
                     if (in_array($roleid, $mainRoles)) {
                         echo "<tr><td><input type='checkbox' name='roles[]' checked value='"
                              . $role->getVar('id')
-                             . "' onclick=\"Xhelp\RoleCustOnClick('frmEditStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\"><a href='staff.php?op=editRole&amp;id="
+                             . "' onclick=\"xhelpRoleCustOnClick('frmEditStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\"><a href='staff.php?op=editRole&amp;id="
                              . $role->getVar('id')
                              . '&amp;uid='
                              . $uid
@@ -698,7 +698,7 @@ function editStaff()
                     } else {
                         echo "<tr><td><input type='checkbox' name='roles[]'  value='"
                              . $role->getVar('id')
-                             . "' onclick=\"Xhelp\RoleCustOnClick('frmEditStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\"><a href='staff.php?op=editRole&amp;id="
+                             . "' onclick=\"xhelpRoleCustOnClick('frmEditStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\"><a href='staff.php?op=editRole&amp;id="
                              . $role->getVar('id')
                              . '&amp;uid='
                              . $uid
@@ -711,7 +711,7 @@ function editStaff()
                 } else {
                     echo "<tr><td><input type='checkbox' name='roles[]'  value='"
                          . $role->getVar('id')
-                         . "' onclick=\"Xhelp\RoleCustOnClick('frmEditStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\"><a href='staff.php?op=editRole&amp;id="
+                         . "' onclick=\"xhelpRoleCustOnClick('frmEditStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\"><a href='staff.php?op=editRole&amp;id="
                          . $role->getVar('id')
                          . '&amp;uid='
                          . $uid
@@ -723,7 +723,7 @@ function editStaff()
                 }
             }
         }
-        echo "<tr><td><input type='checkbox' name='checkallRoles' value='0' onclick='selectAll(this.form,\"roles[]\",this.checked); Xhelp\RoleCustOnClick(\"frmEditStaff\", \"roles[]\", \"xhelp_role\", \"&amp;\", \"xhelp_dept_cust\");'><b>" . _AM_XHELP_TEXT_SELECT_ALL . '</b></td></tr>';
+        echo "<tr><td><input type='checkbox' name='checkallRoles' value='0' onclick='selectAll(this.form,\"roles[]\",this.checked); xhelpRoleCustOnClick(\"frmEditStaff\", \"roles[]\", \"xhelp_role\", \"&amp;\", \"xhelp_dept_cust\");'><b>" . _AM_XHELP_TEXT_SELECT_ALL . '</b></td></tr>';
         echo '</table></td></tr>';
         echo "<tr><td class='head'>" . _AM_XHELP_TEXT_DEPARTMENTS . "</td>
                   <td class='even'><table width='75%'>";
@@ -797,7 +797,7 @@ function editStaff()
             $checked = ($inDept ? 'checked' : '');
 
             printf(
-                "<tr><td><input type='checkbox' name='departments[]' value='%u' %s onclick=\"Xhelp\RoleCustOnClick('frmEditStaff', 'departments[]', 'xhelp_depts', '&amp;', 'xhelp_dept_cust');\">%s [<a href='staff.php?op=customDept&amp;deptid=%u&amp;uid=%u&amp;xhelp_role=%s&amp;xhelp_depts=%s' class='xhelp_dept_cust'>Customize</a>] <i>%s</i><input type='hidden' name='custrole[%u]' value='%s'></td></tr>",
+                "<tr><td><input type='checkbox' name='departments[]' value='%u' %s onclick=\"xhelpRoleCustOnClick('frmEditStaff', 'departments[]', 'xhelp_depts', '&amp;', 'xhelp_dept_cust');\">%s [<a href='staff.php?op=customDept&amp;deptid=%u&amp;uid=%u&amp;xhelp_role=%s&amp;xhelp_depts=%s' class='xhelp_dept_cust'>Customize</a>] <i>%s</i><input type='hidden' name='custrole[%u]' value='%s'></td></tr>",
                 $deptid,
                 $checked,
                 $deptname,
@@ -811,7 +811,7 @@ function editStaff()
             );
         }
         echo "<tr><td>
-                  <input type='checkbox' name='checkAll' value='0' onclick='selectAll(this.form,\"departments[]\", this.checked);Xhelp\RoleCustOnClick(\"frmEditStaff\", \"departments[]\", \"xhelp_depts\", \"&amp;\", \"xhelp_dept_cust\");'><b>" . _AM_XHELP_TEXT_SELECT_ALL . '</b></td></tr>';
+                  <input type='checkbox' name='checkAll' value='0' onclick='selectAll(this.form,\"departments[]\", this.checked);xhelpRoleCustOnClick(\"frmEditStaff\", \"departments[]\", \"xhelp_depts\", \"&amp;\", \"xhelp_dept_cust\");'><b>" . _AM_XHELP_TEXT_SELECT_ALL . '</b></td></tr>';
         echo '<tr><td>';
         echo '</td></tr>';
         echo '</table>';
@@ -898,7 +898,7 @@ function manageStaff()
         if (null === $roles) {
             $helper->redirect('admin/staff.php?op=manageStaff', 3, _AM_XHELP_STAFF_ERROR_ROLES);
         }
-        if ($staffHandler->isStaff($uid)) {
+        if ($staffHandler->isStaff((int)$uid)) {
             $helper->redirect('admin/staff.php?op=manageStaff', 3, _AM_XHELP_STAFF_EXISTS);
         }
 
@@ -907,13 +907,13 @@ function manageStaff()
         $newUser       = $memberHandler->getUser($uid);
 
         $email = $newUser->getVar('email');
-        if ($staffHandler->addStaff($uid, $email)) {    // $selectAll
+        if ($staffHandler->addStaff((int)$uid, $email)) {    // $selectAll
             $message = _XHELP_MESSAGE_ADDSTAFF;
             /** @var \XoopsModules\Xhelp\MembershipHandler $membershipHandler */
             $membershipHandler = $helper->getHandler('Membership');
 
             //Set Department Membership
-            if ($membershipHandler->addDeptToStaff($depts, $uid)) {
+            if ($membershipHandler->addDeptToStaff($depts, (int)$uid)) {
                 $message = _XHELP_MESSAGE_ADDSTAFF;
             } else {
                 $message = _XHELP_MESSAGE_ADDSTAFF_ERROR;
@@ -921,7 +921,7 @@ function manageStaff()
 
             //Set Global Roles
             foreach ($roles as $role) {
-                $staffHandler->addStaffRole($uid, $role, 0);
+                $staffHandler->addStaffRole((int)$uid, (int)$role, 0);
             }
 
             //Set Department Roles
@@ -930,23 +930,23 @@ function manageStaff()
                 if ($custRoles) {
                     if (-1 != $custRoles['roles']) {
                         foreach ($custRoles['roles'] as $role) {
-                            $staffHandler->addStaffRole($uid, $role, $dept);
+                            $staffHandler->addStaffRole((int)$uid, (int)$role, (int)$dept);
                         }
                     } else {
                         // If dept still checked, but no custom depts, give global roles to dept
                         foreach ($roles as $role) {
-                            $staffHandler->addStaffRole($uid, $role, $dept);
+                            $staffHandler->addStaffRole((int)$uid, (int)$role, (int)$dept);
                         }
                     }
                 } else {
                     foreach ($roles as $role) {
-                        $staffHandler->addStaffRole($uid, $role, $dept);
+                        $staffHandler->addStaffRole((int)$uid, (int)$role, (int)$dept);
                     }
                 }
             }
             /** @var \XoopsModules\Xhelp\TicketListHandler $ticketListHandler */
             $ticketListHandler = $helper->getHandler('TicketList');
-            $hasTicketLists    = $ticketListHandler->createStaffGlobalLists($uid);
+            $hasTicketLists    = $ticketListHandler->createStaffGlobalLists((int)$uid);
 
             $helper->redirect('admin/staff.php?op=clearRoles');
         } else {
@@ -1023,20 +1023,20 @@ function manageStaff()
             if ($mainRoles) {
                 foreach ($roles as $role) {
                     if (in_array($role->getVar('id'), $mainRoles)) {
-                        echo "<tr><td><input type='checkbox' name='roles[]' value='" . $role->getVar('id') . "' checked onclick=\"Xhelp\RoleCustOnClick('manageStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\">
+                        echo "<tr><td><input type='checkbox' name='roles[]' value='" . $role->getVar('id') . "' checked onclick=\"xhelpRoleCustOnClick('manageStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\">
                               <a href='staff.php?op=editRole&amp;id=" . $role->getVar('id') . '&amp;uid=' . $userid . "'>" . $role->getVar('name') . '</a> - ' . $role->getVar('description') . '</td></tr>';
                     } else {
-                        echo "<tr><td><input type='checkbox' name='roles[]' value='" . $role->getVar('id') . "' onclick=\"Xhelp\RoleCustOnClick('manageStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\">
+                        echo "<tr><td><input type='checkbox' name='roles[]' value='" . $role->getVar('id') . "' onclick=\"xhelpRoleCustOnClick('manageStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\">
                               <a href='staff.php?op=editRole&amp;id=" . $role->getVar('id') . '&amp;uid=' . $userid . "'>" . $role->getVar('name') . '</a> - ' . $role->getVar('description') . '</td></tr>';
                     }
                 }
             } else {
                 foreach ($roles as $role) {
-                    echo "<tr><td><input type='checkbox' name='roles[]' value='" . $role->getVar('id') . "' onclick=\"Xhelp\RoleCustOnClick('manageStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\">
+                    echo "<tr><td><input type='checkbox' name='roles[]' value='" . $role->getVar('id') . "' onclick=\"xhelpRoleCustOnClick('manageStaff', 'roles[]', 'xhelp_role', '&amp;', 'xhelp_dept_cust');\">
                           <a href='staff.php?op=editRole&amp;id=" . $role->getVar('id') . '&amp;uid=' . $userid . "'>" . $role->getVar('name') . '</a> - ' . $role->getVar('description') . '</td></tr>';
                 }
             }
-            echo "<tr><td><input type='checkbox' name='checkallRoles' value='0' onclick='selectAll(this.form,\"roles[]\",this.checked); Xhelp\RoleCustOnClick(\"manageStaff\", \"roles[]\", \"xhelp_role\", \"&amp;\", \"xhelp_dept_cust\");'><b>" . _AM_XHELP_TEXT_SELECT_ALL . '</b></td></tr>';
+            echo "<tr><td><input type='checkbox' name='checkallRoles' value='0' onclick='selectAll(this.form,\"roles[]\",this.checked); xhelpRoleCustOnClick(\"manageStaff\", \"roles[]\", \"xhelp_role\", \"&amp;\", \"xhelp_dept_cust\");'><b>" . _AM_XHELP_TEXT_SELECT_ALL . '</b></td></tr>';
             echo '</table></td></tr>';
             echo "<tr><td class='head' width='20%'>" . _AM_XHELP_TEXT_DEPARTMENTS . "</td>
                   <td class='even' width='50%'><table width='75%'>";
@@ -1053,12 +1053,12 @@ function manageStaff()
                     }
                     if (in_array($dept->getVar('id'), $mainDepts)) {
                         echo "<tr><td>
-                              <input type='checkbox' name='departments[]' checked value='" . $dept->getVar('id') . "' onclick=\"Xhelp\RoleCustOnClick('manageStaff', 'departments[]', 'xhelp_depts', '&amp;', 'xhelp_dept_cust');\">
+                              <input type='checkbox' name='departments[]' checked value='" . $dept->getVar('id') . "' onclick=\"xhelpRoleCustOnClick('manageStaff', 'departments[]', 'xhelp_depts', '&amp;', 'xhelp_dept_cust');\">
                               " . $dept->getVar('department') . " [<a href='staff.php?op=customDept&amp;deptid=" . $dept->getVar('id') . '&amp;uid=' . $userid . "' class='xhelp_dept_cust'>" . _AM_XHELP_TEXT_CUSTOMIZE . '</a>] <i>' . $deptRoles . '</i>
                               </td></tr>';
                     } else {
                         echo "<tr><td>
-                              <input type='checkbox' name='departments[]' value='" . $dept->getVar('id') . "' onclick=\"Xhelp\RoleCustOnClick('manageStaff', 'departments[]', 'xhelp_depts', '&amp;', 'xhelp_dept_cust');\">
+                              <input type='checkbox' name='departments[]' value='" . $dept->getVar('id') . "' onclick=\"xhelpRoleCustOnClick('manageStaff', 'departments[]', 'xhelp_depts', '&amp;', 'xhelp_dept_cust');\">
                               " . $dept->getVar('department') . " [<a href='staff.php?op=customDept&amp;deptid=" . $dept->getVar('id') . '&amp;uid=' . $userid . "' class='xhelp_dept_cust'>" . _AM_XHELP_TEXT_CUSTOMIZE . '</a>] <i>' . $deptRoles . '</i>
                               </td></tr>';
                     }
@@ -1074,12 +1074,12 @@ function manageStaff()
                         $deptRoles = '';
                     }
                     echo "<tr><td>
-                          <input type='checkbox' name='departments[]' value='" . $dept->getVar('id') . "' onclick=\"Xhelp\RoleCustOnClick('manageStaff', 'departments[]', 'xhelp_depts', '&amp;', 'xhelp_dept_cust');\">
+                          <input type='checkbox' name='departments[]' value='" . $dept->getVar('id') . "' onclick=\"xhelpRoleCustOnClick('manageStaff', 'departments[]', 'xhelp_depts', '&amp;', 'xhelp_dept_cust');\">
                           " . $dept->getVar('department') . " [<a href='staff.php?op=customDept&amp;deptid=" . $dept->getVar('id') . '&amp;uid=' . $userid . "' class='xhelp_dept_cust'>" . _AM_XHELP_TEXT_CUSTOMIZE . '</a>] <i>' . $deptRoles . '</i>
                           </td></tr>';
                 }
             }
-            echo "<tr><td><input type='checkbox' name='checkallDepts' value='0' onclick='selectAll(this.form,\"departments[]\",this.checked);Xhelp\RoleCustOnClick(\"manageStaff\", \"departments[]\", \"xhelp_depts\", \"&amp;\", \"xhelp_dept_cust\");'><b>"
+            echo "<tr><td><input type='checkbox' name='checkallDepts' value='0' onclick='selectAll(this.form,\"departments[]\",this.checked);xhelpRoleCustOnClick(\"manageStaff\", \"departments[]\", \"xhelp_depts\", \"&amp;\", \"xhelp_dept_cust\");'><b>"
                  . _AM_XHELP_TEXT_SELECT_ALL
                  . '</b></td></tr>';
             echo '</table></td></tr>';
@@ -1163,7 +1163,7 @@ function manageStaff()
                 $membershipHandler = $helper->getHandler('Membership');
                 $staffRoleHandler  = $helper->getHandler('StaffRole');
                 foreach ($staff_users as $staff) {
-                    $departments = $membershipHandler->membershipByStaff($staff->getVar('uid'), true);
+                    $departments = $membershipHandler->membershipByStaff((int)$staff->getVar('uid'), true);
                     echo "<tr class='even'><td>" . $staff->getVar('uid') . '</td><td>' . $staff->getVar('uname') . '</td>';
                     foreach ($allDepts as $thisdept) {
                         echo "<td><img src='" . XOOPS_URL . '/modules/xhelp/assets/images/';

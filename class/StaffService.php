@@ -63,7 +63,7 @@ class StaffService extends Service
         /** @var \XoopsModules\Xhelp\MembershipHandler $membershipHandler */
         $membershipHandler = $this->helper->getHandler('Membership');
         if (1 == $responseHandler->getStaffResponseCount($ticket->getVar('id'))) {
-            if ($membershipHandler->isStaffMember($response->getVar('uid'), $ticket->getVar('department'))) {
+            if ($membershipHandler->isStaffMember((int)$response->getVar('uid'), (int)$ticket->getVar('department'))) {
                 $responseTime = \abs($response->getVar('updateTime') - $ticket->getVar('posted'));
                 $this->staffHandler->updateResponseTime($response->getVar('uid'), $responseTime);
             }
@@ -123,7 +123,7 @@ class StaffService extends Service
 
         /** @var \XoopsModules\Xhelp\MembershipHandler $membershipHandler */
         $membershipHandler = $this->helper->getHandler('Membership');
-        if ($membershipHandler->isStaffMember($ticket->getVar('closedBy'), $ticket->getVar('department'))) {
+        if ($membershipHandler->isStaffMember((int)$ticket->getVar('closedBy'), (int)$ticket->getVar('department'))) {
             $this->staffHandler->increaseCallsClosed($ticket->getVar('closedBy'), 1);
         }
 
@@ -140,7 +140,7 @@ class StaffService extends Service
     {
         /** @var \XoopsModules\Xhelp\MembershipHandler $membershipHandler */
         $membershipHandler = $this->helper->getHandler('Membership');
-        if ($membershipHandler->isStaffMember($ticket->getVar('closedBy'), $ticket->getVar('department'))) {
+        if ($membershipHandler->isStaffMember((int)$ticket->getVar('closedBy'), (int)$ticket->getVar('department'))) {
             $this->staffHandler->increaseCallsClosed($ticket->getVar('closedBy'), -1);
         }
 

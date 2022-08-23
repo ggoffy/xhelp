@@ -73,7 +73,7 @@ class ChangeSelectedState
         if (-1 == $state) {   // If select all is chosen
             $statuses = $statusHandler->getObjects(null, true);
         } else {
-            $statuses = &$statusHandler->getStatusesByState($state);
+            $statuses = &$statusHandler->getStatusesByState((int)$state);
         }
         $aStatuses   = [];
         $aStatuses[] = [

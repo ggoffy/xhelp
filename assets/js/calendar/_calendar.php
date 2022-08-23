@@ -32,12 +32,12 @@ class _calendar
     public function __construct(
         string $calendar_lib_path = '/calendar/',
         string $lang = 'en',
-        string $theme = 'calendar',
+        string $theme = 'calendar-win2k-1',
         bool $stripped = false
     ) {
         global $xoopsConfig;
-        $lang  = 'en';
-        $theme = 'calendar-win2k-1';
+        //$lang  = 'en';
+        //$theme = 'calendar-win2k-1';
         if ($stripped) {
             $this->calendar_file       = 'calendar_stripped.js';
             $this->calendar_setup_file = 'calendar-setup_stripped.js';
@@ -78,6 +78,7 @@ class _calendar
      */
     public function get_load_files_code(): ?string
     {
+        $ret = '';
         if (isset($GLOBALS['xo_Theme'])) {
             $GLOBALS['xo_Theme']->addStylesheet($this->calendar_theme_url . $this->calendar_theme_file);
             $GLOBALS['xo_Theme']->addScript($this->calendar_lib_path . $this->calendar_file);
@@ -89,9 +90,8 @@ class _calendar
             $ret .= '<script type="text/javascript" src="' . XOOPS_URL . '/' . $this->calendar_lib_path . $this->calendar_file . '"></script>';
             $ret .= '<script type="text/javascript" src="' . XOOPS_URL . '/' . $this->calendar_lib_path . $this->calendar_lang_file . '"></script>';
             $ret .= '<script type="text/javascript" src="' . XOOPS_URL . '/' . $this->calendar_lib_path . $this->calendar_setup_file . '"></script>';
-
-            return $ret;
         }
+        return $ret;
     }
 
     /**

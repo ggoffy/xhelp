@@ -20,10 +20,15 @@
 
 use Xmf\Request;
 use XoopsModules\Xhelp;
+use XoopsModules\Xhelp\EventService;
 
 require_once __DIR__ . '/admin_header.php';
 
 global $xoopsUser, $eventService;
+
+if(!is_object($eventService)) {
+    $eventService = new EventService();
+}
 $uid    = $xoopsUser->getVar('uid');
 $helper = Xhelp\Helper::getInstance();
 $deptID = 0;

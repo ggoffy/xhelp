@@ -436,6 +436,8 @@ class Ticket extends \XoopsObject
                 return "$value $unit_dsc";
             }
         }
+
+        return '';
     }
 
     /**

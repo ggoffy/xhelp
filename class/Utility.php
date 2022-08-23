@@ -1039,7 +1039,7 @@ class Utility extends Common\SysUtility
                 'id'            => $obj->getVar('id'),
                 'uid'           => $obj->getVar('uid'),
                 'name'          => $obj->getVar('name'),
-                'search'        => \unserialize($obj->getVar('search')),
+                'search'        => \unserialize($obj->getVar('search'), ['allowed_classes' => false]),
                 'pagenav_vars'  => $obj->getVar('pagenav_vars'),
                 'hasCustFields' => $obj->getVar('hasCustFields'),
             ];

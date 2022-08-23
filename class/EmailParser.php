@@ -80,7 +80,7 @@ class EmailParser
         $arr['hash']        = $this->parseTicketID($structure->headers['subject']);
         $arr['msg']         = $this->_parseBody($body);
         $arr['mime_struct'] = $structure;
-        $arr                = \array_merge($arr, $this->_parseFrom($structure->headers['from']));
+        $arr                = \array_merge($arr, $this->_parseFrom((string)$structure->headers['from']));
 
         return $arr;
     }

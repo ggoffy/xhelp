@@ -108,6 +108,8 @@ class TicketHandler extends BaseObjectHandler
 
             return $object;
         }
+
+        return null;
     }
 
     /**

@@ -6,7 +6,15 @@
 - fix  Error with xhelp staff and xmf #6 (Cesagonchu/mamba) https://github.com/XoopsModules25x/xhelp/issues/6
 - cosmetics (mamba)
 - add D3Language for altSys (mamba)
-
+- fixed cast type errors (Jacky1204/goffy)
+- Code inspection PHPStorm (goffy)
+-- missing return statements
+-- Declaration must be compatible with parent
+-- replaced 'convert_cyr_string' by 'mb_convert_encoding'
+-- replaced while by foreach
+-- deprecated constructor style
+-- updated jpgraph
+-- fixed bugs in deleting staff
 
 <h5>1.0.0 Alpha 2   [2022-01-20]</h5>  Dev: XOOPS 2.5.10, PHP 7.4.26, PHP 8.1.1
 <hr>

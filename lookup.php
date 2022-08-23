@@ -75,9 +75,12 @@ if (Request::hasVar('search', 'POST')) {
             'email' => $user->getVar('email'),
         ];
     }
-
-    $xoopsTpl->assign('xhelp_matches', $aUsers);
-    $xoopsTpl->assign('xhelp_matchCount', count($aUsers));
+    if (count($users) > 0) {
+        $xoopsTpl->assign('xhelp_matches', $aUsers);
+        $xoopsTpl->assign('xhelp_matchCount', count($aUsers));
+    } else {
+        $xoopsTpl->assign('xhelp_viewResults', 'false');
+    }
 } else {
     $xoopsTpl->assign('xhelp_viewResults', false);
 }

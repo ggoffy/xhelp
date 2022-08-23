@@ -661,7 +661,7 @@ xhelpDOMAddEvent(window, 'load', window_onload, true);
 
         $patterns     = [];
         $patterns[]   = '/pri:([1-5])/';
-        $replacements = [];
+        //$replacements = [];
         $replacements = '<img src="assets/images/priority$1print.png">';
 
         foreach ($logMessage as $msg) {
@@ -1149,7 +1149,7 @@ xhelpDOMAddEvent(window, 'load', window_onload, true);
                 }
             }
 
-            $staffReview = $staffReviewHandler->getReview($xhelp_id, $response->getVar('id'), $xoopsUser->getVar('uid'));
+            $staffReview = $staffReviewHandler->getReview((int)$xhelp_id, (int)$response->getVar('id'), (int)$xoopsUser->getVar('uid'));
             if (is_iterable($staffReview) && count($staffReview) > 0) {
                 $review = $staffReview[0];
             }

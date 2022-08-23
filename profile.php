@@ -119,10 +119,10 @@ if ($xoopsUser) {
             if (Request::hasVar('email', 'POST') && \Xmf\Request::getString('email', '', 'POST') != $staff->getVar('email')) {
                 $staff->setVar('email', \Xmf\Request::getString('email', '', 'POST'));
             }
+            $message = _XHELP_MESSAGE_NOTIFY_UPDATE;
             if (!$staffHandler->insert($staff)) {
                 $message = _XHELP_MESSAGE_UPDATE_EMAIL_ERROR;
             }
-            $message = _XHELP_MESSAGE_NOTIFY_UPDATE;
             $helper->redirect('profile.php', 3, $message);
             break;
         case 'addTicketList':
@@ -171,7 +171,7 @@ if ($xoopsUser) {
             if (Request::hasVar('up', 'REQUEST')) {
                 $up = $_REQUEST['up'];
             }
-            $ticketListHandler->changeWeight($listID, $up);
+            $ticketListHandler->changeWeight((int)$listID, (bool)$up);
             $helper->redirect('profile.php');
             break;
         default:

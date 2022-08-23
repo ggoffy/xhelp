@@ -414,7 +414,7 @@ class MembershipHandler
             $deptid = (int)$dept;
         }
 
-        return $this->addJoinerRecord($staffid, $deptid);
+        return $this->addJoinerRecord((int)$staffid, (int)$deptid);
     }
 
     /**
@@ -455,7 +455,7 @@ class MembershipHandler
             $deptid = (int)$dept;
         }
 
-        return $this->removeJoinerRecord($staffid, $deptid);
+        return $this->removeJoinerRecord((int)$staffid, (int)$deptid);
     }
 
     /**

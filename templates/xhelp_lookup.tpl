@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xml:lang="<{$xoops_langcode}>" lang="<{$xoops_langcode}>">
+<html xml:lang="<{$xoops_langcode|default:''}>" lang="<{$xoops_langcode|default:''}>">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=<{$xoops_charset}>">
+    <meta http-equiv="content-type" content="text/html; charset=<{$xoops_charset|default:''}>">
     <meta http-equiv="content-language" content="<{$xoops_langcode}>">
-    <title><{$sitename}> <{$smarty.const._XHELP_TEXT_USER_LOOKUP}></title>
+    <title><{$sitename|default:''}> <{$smarty.const._XHELP_TEXT_USER_LOOKUP}></title>
     <script type="text/javascript">
         <!--//
         function setUser(userInfo) {
@@ -14,7 +14,7 @@
 
             uidDom.value = uinfo[0];
             nameDom.value = uinfo[1];
-            <{if $xhelp_inadmin eq true}>
+            <{if $xhelp_inadmin|default:false eq true}>
             window.opener.location.replace('<{$xhelp_adminURL}>/staff.php?op=manageStaff&uid=' + uinfo[0]);
             <{/if}>
             window.close();
@@ -124,9 +124,9 @@
 
 <body>
 
-<{if $xhelp_viewResults neq true}>
+<{if $xhelp_viewResults|default:false neq true}>
     <div id='lookup'>
-        <form method='post' action='lookup.php?admin=<{$xhelp_inadmin}>'>
+        <form method='post' action='lookup.php?admin=<{$xhelp_inadmin|default:false}>'>
             <table width='100%' border='1' cellpadding='0' cellspacing='2' id='searchtable' class='formButton'>
                 <tr>
                     <th colspan='2'>
@@ -192,7 +192,7 @@
                         <{$smarty.const._XHELP_TEXT_EMAIL}>
                     </td>
                 </tr>
-                <{if $xhelp_matchCount neq 0}>
+                <{if $xhelp_matchCount|default:0 neq 0}>
                     <{foreach from=$xhelp_matches item=user}>
                         <tr class="<{cycle values="odd,even"}>">
                             <td>
@@ -203,10 +203,10 @@
                                 <{$user.uid}>
                             </td>
                             <td>
-                                <{$user.uname}>
+                                <{$user.uname|default:''}>
                             </td>
                             <td>
-                                <{$user.name}>
+                                <{$user.name|default:''}>
                             </td>
                             <td>
                                 <{$user.email}>

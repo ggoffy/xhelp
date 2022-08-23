@@ -56,7 +56,7 @@ class JPSpan_Unserializer_PHP
         $old_cb = ini_get('unserialize_callback_func');
         ini_set('unserialize_callback_func', 'JPSpan_Unserializer_PHP_Callback');
 
-        $result = @unserialize(trim($data));
+        $result = @unserialize(trim($data), ['allowed_classes' => false]);
 
         ini_set('unserialize_callback_func', $old_cb);
 

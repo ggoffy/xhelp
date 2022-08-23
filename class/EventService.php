@@ -56,11 +56,11 @@ class EventService
     /**
      * Add a new class function to be notified
      * @param string $context  Event used for callback
-     * @param string $callback Function to call when event is fired. If only object is supplied, look for function with same name as context
+     * @param mixed  $callback Function to call when event is fired. If only object is supplied, look for function with same name as context
      * @param int    $priority Order that callback should be triggered
      * @return int      Event cookie, used for unadvise
      */
-    public function advise(string $context, string $callback, int $priority = 10): int
+    public function advise(string $context, mixed $callback, int $priority = 10): int
     {
         $clbk = $callback;
         if (!\is_array($callback) && \is_object($callback)) {

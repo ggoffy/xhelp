@@ -122,7 +122,7 @@ foreach ($departmentMailBoxes as $mbox) {
         //Disconnect from Server
         $mbox->disconnect();
     } else {                        // If mailbox not connected properly, log event
-        $connEvent = $mailEventHandler->newEvent($mbox->getVar('id'), _XHELP_MAILEVENT_DESC0, (string)_XHELP_MAILEVENT_CLASS0);
+        $connEvent = $mailEventHandler->newEvent((int)$mbox->getVar('id'), (string)_XHELP_MAILEVENT_DESC0, (string)_XHELP_MAILEVENT_CLASS0);
     }
 }
 

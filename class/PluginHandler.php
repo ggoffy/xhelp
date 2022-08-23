@@ -41,7 +41,7 @@ class PluginHandler
     public function __construct(\XoopsDatabase $db = null)
     {
         $this->db     = $db;
-        $this->active = \unserialize(Utility::getMeta('plugins'));
+        $this->active = \unserialize(Utility::getMeta('plugins'), ['allowed_classes' => false]);
     }
 
     /**

@@ -104,7 +104,7 @@ class File extends \XoopsObject
 
         $ret = false;
         if ($success) {
-            $ret = $this->renameAtFS($filename, $newFilename);
+            $ret = $this->renameAtFS((string)$filename, (string)$newFilename);
         }
 
         return $ret;

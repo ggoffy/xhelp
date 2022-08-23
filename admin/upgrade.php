@@ -354,14 +354,14 @@ function upgradeDB()
             if ($staffArray) {
                 foreach ($staffArray as $staff) {
                     $uid   = $staff->getVar('uid');
-                    $depts = $membershipHandler->membershipByStaff($uid, true);
-                    if ($staffHandler->addStaffRole($uid, 1, 0)) {
+                    $depts = $membershipHandler->membershipByStaff((int)$uid, true);
+                    if ($staffHandler->addStaffRole((int)$uid, 1, 0)) {
                         echo '<li>' . sprintf(_AM_XHELP_MSG_GLOBAL_PERMS, $uid) . '</li>';
                     }
 
                     foreach ($depts as $dept) {
                         $deptid = $dept->getVar('id');
-                        if ($staffHandler->addStaffRole($uid, 1, $deptid)) {    // Departmental permissions
+                        if ($staffHandler->addStaffRole((int)$uid, 1, (int)$deptid)) {    // Departmental permissions
                             echo '<li>' . sprintf(_AM_XHELP_MSG_UPD_PERMS, $uid, $dept->getVar('department')) . '</li>';
                         }
                     }
@@ -669,7 +669,7 @@ function upgradeDB()
 
             foreach ($savedSearches as $savedSearch) {
                 set_time_limit(60);
-                $criteria = unserialize($savedSearch->getVar('search'));
+                $criteria = unserialize($savedSearch->getVar('search'), ['allowed_classes' => false]);
                 if (is_object($criteria)) {
                     $savedSearch->setVar('query', $criteria->render());
 

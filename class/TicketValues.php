@@ -55,8 +55,8 @@ class TicketValues extends \XoopsObject
 
         foreach ($fields as $field) {
             $key       = $field->getVar('fieldname');
-            $datatype  = $this->getDataType($field->getVar('datatype'), $field->getVar('controltype'));
-            $value     = $this->getValueFromXoopsDataType($datatype);
+            $datatype  = $this->getDataType((string)$field->getVar('datatype'), (int)$field->getVar('controltype'));
+            $value     = $this->getValueFromXoopsDataType((int)$datatype);
             $required  = $field->getVar('required');
             $maxlength = ($field->getVar('fieldlength') < 50 ? $field->getVar('fieldlength') : 50);
             $options   = '';

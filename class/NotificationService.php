@@ -1334,7 +1334,7 @@ class NotificationService extends Service
         global $xoopsUser;
 
         $departmentHandler = $this->helper->getHandler('Department');
-        $sDept             = $departmentHandler->getNameById($dept);
+        $sDept             = $departmentHandler->getNameById((int)$dept);
 
         $settings      = $this->notificationHandler->get(\XHELP_NOTIF_EDITTICKET);
         $staff_setting = $settings->getVar('staff_setting') ?? '';
@@ -1621,7 +1621,7 @@ class NotificationService extends Service
             $tags['TICKET_STATUS']      = Utility::getStatus($ticket->getVar('status'));
             $tags['TICKET_POSTED']      = $ticket->posted();
             $tags['TICKET_DELETEDBY']   = $uname;
-            $tags['TICKET_DEPARTMENT']  = ($departmentHandler->getNameById($ticket->getVar('department')));
+            $tags['TICKET_DEPARTMENT']  = ($departmentHandler->getNameById((int)$ticket->getVar('department')));
 
             if ($dept_email_tpl) {
                 $sendTo  = $this->getSubscribedStaff($ticket, $dept_email_tpl['bit_value'], $settings);

@@ -155,7 +155,7 @@ class MediaUploader
             $this->mediaError   = !empty($_FILES[$media_name]['error'][$index]) ? $_FILES[$media_name]['errir'][$index] : 0;
         } else {
             $media_name         = @$_FILES[$media_name];
-            $this->mediaName    = @get_magic_quotes_gpc() ? \stripslashes($media_name['name']) : $media_name['name'];
+            //$this->mediaName    = @get_magic_quotes_gpc() ? \stripslashes($media_name['name']) : $media_name['name'];
             $this->mediaName    = $media_name['name'];
             $this->mediaType    = $media_name['type'];
             $this->mediaSize    = $media_name['size'];

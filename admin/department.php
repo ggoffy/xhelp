@@ -212,10 +212,10 @@ function deleteStaffDept()
     $membershipHandler = $helper->getHandler('Membership');
     if (is_array($staffID)) {
         foreach ($staffID as $sid) {
-            $ret = $membershipHandler->removeDeptFromStaff($deptID, $sid);
+            $ret = $membershipHandler->removeDeptFromStaff($deptID, (int)$sid);
         }
     } else {
-        $ret = $membershipHandler->removeDeptFromStaff($deptID, $staffID);
+        $ret = $membershipHandler->removeDeptFromStaff($deptID, (int)$staffID);
     }
 
     if ($ret) {
@@ -495,7 +495,7 @@ function editDepartment()
         //now do the list of servers
         /** @var \XoopsModules\Xhelp\DepartmentMailBoxHandler $departmentMailBoxHandler */
         $departmentMailBoxHandler = $helper->getHandler('DepartmentMailBox');
-        $deptServers              = $departmentMailBoxHandler->getByDepartment($deptID);
+        $deptServers              = $departmentMailBoxHandler->getByDepartment((int)$deptID);
         //iterate
         if (count($deptServers) > 0) {
             echo "<br><table width='100%' cellspacing='1' class='outer'>
@@ -817,7 +817,7 @@ function manageDepartments()
             if (count($allDeptStaff) > 0) {
                 /** @var \XoopsModules\Xhelp\MembershipHandler $membershipHandler */
                 $membershipHandler = $helper->getHandler('Membership');
-                if ($membershipHandler->addStaffToDept($allDeptStaff, $department->getVar('id'))) {
+                if ($membershipHandler->addStaffToDept($allDeptStaff, (int)$department->getVar('id'))) {
                     $message = _XHELP_MESSAGE_ADD_DEPT;
                 } else {
                     $message = _AM_XHELP_MESSAGE_STAFF_UPDATE_ERROR;

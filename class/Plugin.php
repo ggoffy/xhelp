@@ -91,7 +91,7 @@ class Plugin implements PluginInterface
         //Remove any registered events
         foreach ($this->_events as $event_ctx => $event_cookies) {
             foreach ($event_cookies as $cookie) {
-                $this->eventService->unadvise($event_ctx, $cookie);
+                $this->eventService->unadvise((string)$event_ctx, (int)$cookie);
             }
         }
     }

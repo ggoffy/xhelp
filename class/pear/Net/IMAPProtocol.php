@@ -104,7 +104,7 @@ class Net_IMAPProtocol
          * we disable the authentication methods that depend upon it.
          */
 
-        if (false === (@require_once __DIR__ . '/Auth/SASL.php')) {
+        if (true !== (@require_once __DIR__ . '/Auth/SASL.php')) {
             foreach ($this->supportedSASLAuthMethods as $SASLMethod) {
                 $pos = array_search($SASLMethod, $this->supportedAuthMethods, true);
                 unset($this->supportedAuthMethods[$pos]);
@@ -429,6 +429,7 @@ class Net_IMAPProtocol
         if (PEAR::isError($error = $this->_send("\r\n"))) {
             return $error;
         }
+        return true;
     }
 
     /* Authenticates the user using the CRAM-MD5 method.
@@ -474,6 +475,8 @@ class Net_IMAPProtocol
         if (PEAR::isError($error = $this->_send($auth_str . "\r\n"))) {
             return $error;
         }
+
+        return true;
     }
 
     /* Authenticates the user using the LOGIN method.
@@ -527,6 +530,8 @@ class Net_IMAPProtocol
         if (PEAR::isError($error = $this->_send($auth_str . "\r\n"))) {
             return $error;
         }
+
+        return true;
     }
 
     /**
@@ -2039,6 +2044,8 @@ class Net_IMAPProtocol
         if ($printError) {
             echo "$line,$file,PROTOCOL ERROR!:$str\n";
         }
+
+        return '';
     }
 
     /**

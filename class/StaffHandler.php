@@ -84,7 +84,7 @@ class StaffHandler extends BaseObjectHandler
         $ret = false;
         $uid = $uid;
         if ($uid > 0) {
-            $sql = $this->selectQuery(new \Criteria('uid', (string)$uid));
+            $sql = $this->selectQuery(new \Criteria('uid', $uid));
             if (!$result = $this->db->query($sql)) {
                 return $ret;
             }
@@ -174,8 +174,8 @@ class StaffHandler extends BaseObjectHandler
         $deptid           = $deptid;
         $staffRoleHandler = $this->helper->getHandler('StaffRole');
 
-        $criteria = new \CriteriaCompo(new \Criteria('uid', (string)$uid));
-        $criteria->add(new \Criteria('deptid', (string)$deptid));
+        $criteria = new \CriteriaCompo(new \Criteria('uid', $uid));
+        $criteria->add(new \Criteria('deptid', $deptid));
 
         if (!$roles = $staffRoleHandler->getObjects($criteria, $id_as_key)) {
             return $ret;
@@ -195,9 +195,9 @@ class StaffHandler extends BaseObjectHandler
     public function removeStaffRoles(int $uid): bool
     {
         $staffRoleHandler = $this->helper->getHandler('StaffRole');
-        $criteria         = new \Criteria('uid', (string)$uid);
+        $criteria         = new \Criteria('uid', $uid);
 
-        return $staffRoleHandler->deleteAll($criteria);
+        return (bool)$staffRoleHandler->deleteAll($criteria);
     }
 
     /**
@@ -228,7 +228,7 @@ class StaffHandler extends BaseObjectHandler
         $responseHandler = $this->helper->getHandler('Response');
         if (0 == !$uid) {
             $uid       = $uid;
-            $criteria  = new \Criteria('uid', (string)$uid);
+            $criteria  = new \Criteria('uid', $uid);
             $responses = $responseHandler->getObjects($criteria);
         } else {
             $responses = $responseHandler->getObjects();
@@ -271,7 +271,7 @@ class StaffHandler extends BaseObjectHandler
         $staff->setVar('notify', (2 ** $numNotify) - 1);
         $staff->setVar('permTimestamp', \time());
 
-        return $this->insert($staff);
+        return (bool)$this->insert($staff);
     }
 
     /**
@@ -282,7 +282,7 @@ class StaffHandler extends BaseObjectHandler
      */
     public function isStaff(int $uid): bool
     {
-        $count = $this->getCount(new \Criteria('uid', (string)$uid));
+        $count = $this->getCount(new \Criteria('uid', $uid));
 
         return ($count > 0);
     }
@@ -379,15 +379,17 @@ class StaffHandler extends BaseObjectHandler
         // Clear Department Membership
         /** @var \XoopsModules\Xhelp\MembershipHandler $membershipHandler */
         $membershipHandler = $this->helper->getHandler('Membership');
-        if (!$membershipHandler->clearStaffMembership($object->getVar('uid'))) {
+        if (!$membershipHandler->clearStaffMembership((int)$object->getVar('uid'))) {
             return false;
         }
 
         // Remove ticket lists
         $ticketListHandler = $this->helper->getHandler('TicketList');
         $criteria          = new \Criteria('uid', $object->getVar('uid'));
-        if (!$ticketListHandler->deleteAll($criteria)) {
-            return false;
+        if ($ticketListHandler->getCount($criteria) > 0) {
+            if (!$ticketListHandler->deleteAll($criteria)) {
+                return false;
+            }
         }
 
         // Remove saved searches
@@ -499,7 +501,7 @@ class StaffHandler extends BaseObjectHandler
 
         // Get staff roles by dept
         $staffRoleHandler = $this->helper->getHandler('StaffRole');
-        $criteria         = new \CriteriaCompo(new \Criteria('deptid', (string)$deptid));
+        $criteria         = new \CriteriaCompo(new \Criteria('deptid', $deptid));
         $criteria->add(new \Criteria('roleid', '(' . \implode(',', \array_keys($aRoles)) . ')', 'IN'));
         unset($aRoles);
 

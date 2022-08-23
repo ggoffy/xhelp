@@ -154,6 +154,8 @@ function JPSpan_getTmpVar($refresh = false): string
         return $name;
     }
     $count = 1;
+
+    return '';
 }
 
 //-----------------------------------------------------------------------------
@@ -254,7 +256,7 @@ class JPSpan_SerializedString extends JPSpan_SerializedElement
     /**
      * @param mixed $code
      */
-    public function generate($code): void
+    public function generate(&$code): void
     {
         $value = addcslashes($this->value, "\000\042\047\134");
         $value = str_replace("\r\n", '\n', $value);
@@ -275,7 +277,7 @@ class JPSpan_SerializedBoolean extends JPSpan_SerializedElement
     /**
      * @param mixed $code
      */
-    public function generate($code): void
+    public function generate(&$code): void
     {
         if ($this->value) {
             $code->append("var {$this->tmpName} = true;");
@@ -295,7 +297,7 @@ class JPSpan_SerializedInteger extends JPSpan_SerializedElement
     /**
      * @param mixed $code
      */
-    public function generate($code): void
+    public function generate(&$code): void
     {
         $code->append("var {$this->tmpName} = parseInt('{$this->value}');");
     }
@@ -311,7 +313,7 @@ class JPSpan_SerializedFloat extends JPSpan_SerializedElement
     /**
      * @param mixed $code
      */
-    public function generate($code): void
+    public function generate(&$code): void
     {
         $code->append("var {$this->tmpName} = parseFloat('{$this->value}');");
     }
@@ -327,7 +329,7 @@ class JPSpan_SerializedNull extends JPSpan_SerializedElement
     /**
      * @param mixed $code
      */
-    public function generate($code): void
+    public function generate(&$code): void
     {
         $code->append("var {$this->tmpName} = null;");
     }
@@ -351,8 +353,8 @@ class JPSpan_SerializedArray extends JPSpan_SerializedElement
      */
     public function setValue($value): void
     {
-        foreach ($value as $key => $value) {
-            $this->children[$key] = &(new JPSpan_Serializer())->reflect($value);
+        foreach ($value as $key => $val) {
+            $this->children[$key] = &(new JPSpan_Serializer())->reflect($val);
         }
     }
 

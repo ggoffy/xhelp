@@ -176,7 +176,8 @@ function searchMailEvents()
 
         require_once __DIR__ . '/admin_footer.php';
     } else {
-        $stylePath = require_once XHELP_ASSETS_PATH . '/js/calendar/calendarjs.php';
+        $stylePath = XHELP_ASSETS_PATH . '/js/calendar/calendarjs.php';
+        require_once $stylePath;
         echo '<link rel="stylesheet" type="text/css" media="all" href="' . $stylePath . '"><!--[if lt IE 7]><script src="iepngfix.js" language="JavaScript" type="text/javascript"></script><![endif]-->';
 
         echo "<form method='post' action='" . XHELP_ADMIN_URL . "/main.php?op=searchMailEvents'>";

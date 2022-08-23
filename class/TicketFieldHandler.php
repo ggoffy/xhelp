@@ -259,10 +259,9 @@ class TicketFieldHandler extends BaseObjectHandler
                         $mysqldb['length']    = 0;
                         break;
                     case \_XHELP_DATATYPE_NUMBER_DEC:
-                        $mysqldb['fieldtype'] = 'DECIMAL';
-                        $mysqldb['length']    = '7,4';
-
-                    // no break
+                        //$mysqldb['fieldtype'] = 'DECIMAL';
+                        //$mysqldb['length']    = '7,4';
+                        // no break
                     default:
                         $mysqldb['fieldtype'] = 'VARCHAR';
                         $mysqldb['length']    = 255;
@@ -301,10 +300,9 @@ class TicketFieldHandler extends BaseObjectHandler
                         $mysqldb['length']    = 0;
                         break;
                     case \_XHELP_DATATYPE_NUMBER_DEC:
-                        $mysqldb['fieldtype'] = 'DECIMAL';
-                        $mysqldb['length']    = '7,4';
-
-                    // no break
+                        //$mysqldb['fieldtype'] = 'DECIMAL';
+                        //$mysqldb['length']    = '7,4';
+                        // no break
                     default:
                         $mysqldb['fieldtype'] = 'VARCHAR';
                         $mysqldb['length']    = 255;
@@ -333,10 +331,9 @@ class TicketFieldHandler extends BaseObjectHandler
                         $mysqldb['length']    = 0;
                         break;
                     case \_XHELP_DATATYPE_NUMBER_DEC:
-                        $mysqldb['fieldtype'] = 'DECIMAL';
-                        $mysqldb['length']    = '7,4';
-
-                    // no break
+                        //$mysqldb['fieldtype'] = 'DECIMAL';
+                        //$mysqldb['length']    = '7,4';
+                        // no break
                     default:
                         $mysqldb['fieldtype'] = 'VARCHAR';
                         $mysqldb['length']    = 255;
